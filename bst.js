@@ -90,6 +90,18 @@ const Tree = (initialArray = []) => {
     return value < node.data ? find(value, node.left) : find(value, node.right);
   }
 
+  function height(value, node = treeRoot, counter = 0) {
+    try {
+      if (node.data === value) return counter;
+    } catch {
+      return null;
+    }
+    counter++;
+    return value < node.data
+      ? height(value, node.left, counter)
+      : height(value, node.right, counter);
+  }
+
   function prepare(arr) {
     let newArr = [];
 
@@ -119,7 +131,7 @@ const Tree = (initialArray = []) => {
     insert,
     deleteItem,
     find,
-    somethingForEach,
+    height,
     prettyPrint,
   };
 };
