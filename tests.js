@@ -3,11 +3,12 @@ if (process.argv.length != 2) {
 }
 
 const run = async () => {
-  const { HashMap } = await import("./hashmap.js");
+  const { Tree } = await import("./bst.js");
 
   // Write tests below:
 
-  console.log("Hello :3");
+  const tree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+  tree.prettyPrint(tree.treeRoot);
 };
 
 run();
