@@ -32,6 +32,55 @@ const Tree = (initialArray = []) => {
     }
   }
 
+  function deleteItem(value, node = treeRoot, parent = null) {
+    if (node.data === value && parent) {
+      // Case: node is a leaf
+      if (!node.left && !node.right) {
+        node.data > parent.data ? (parent.right = null) : (parent.left = null);
+        return;
+      }
+
+      // Case: node has both children
+      if (node.left && node.right) {
+        let nextNode = node.right;
+        let nextNodeParent;
+        while (nextNode.left) {
+          nextNodeParent = nextNode;
+          nextNode = nextNode.left;
+        }
+        node.data = nextNode.data;
+        nextNode.right
+          ? (nextNodeParent.left = nextNode.right)
+          : (nextNodeParent.left = null);
+        return;
+      }
+
+      // Case: node has only left children
+      if (node.left) {
+        if (node.left.data > parent.data) {
+          parent.right = node.left;
+        } else {
+          parent.left = node.left;
+        }
+        return;
+      }
+
+      // Case: node has only right children
+      if (node.right.data > parent.data) {
+        parent.right = node.right;
+      } else {
+        parent.left = node.right;
+      }
+      return;
+    }
+    if (value < node.data) {
+      deleteItem(value, node.left, node);
+    }
+    if (value > node.data) {
+      deleteItem(value, node.right, node);
+    }
+  }
+
   function prepare(arr) {
     let newArr = [];
 
