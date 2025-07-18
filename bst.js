@@ -81,6 +81,15 @@ const Tree = (initialArray = []) => {
     }
   }
 
+  function find(value, node = treeRoot) {
+    try {
+      if (value === node.data) return node;
+    } catch {
+      return null;
+    }
+    return value < node.data ? find(value, node.left) : find(value, node.right);
+  }
+
   function prepare(arr) {
     let newArr = [];
 
@@ -93,7 +102,7 @@ const Tree = (initialArray = []) => {
     return newArr;
   }
 
-  const prettyPrint = (node, prefix = "", isLeft = true) => {
+  const prettyPrint = (node = treeRoot, prefix = "", isLeft = true) => {
     if (node === null) {
       return;
     }
@@ -107,9 +116,10 @@ const Tree = (initialArray = []) => {
   };
 
   return {
-    treeRoot,
     insert,
     deleteItem,
+    find,
+    somethingForEach,
     prettyPrint,
   };
 };
