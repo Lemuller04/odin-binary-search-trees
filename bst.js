@@ -33,9 +33,13 @@ const Tree = (initialArray = []) => {
   }
 
   function deleteItem(value, node = treeRoot, parent = null) {
-    if (node.data === value && parent) {
+    if (node.data === value) {
       // Case: node is a leaf
       if (!node.left && !node.right) {
+        if (!parent) {
+          treeRoot = null;
+          return;
+        }
         node.data > parent.data ? (parent.right = null) : (parent.left = null);
         return;
       }
@@ -43,7 +47,7 @@ const Tree = (initialArray = []) => {
       // Case: node has both children
       if (node.left && node.right) {
         let nextNode = node.right;
-        let nextNodeParent;
+        let nextNodeParent = node;
         while (nextNode.left) {
           nextNodeParent = nextNode;
           nextNode = nextNode.left;
@@ -57,6 +61,10 @@ const Tree = (initialArray = []) => {
 
       // Case: node has only left children
       if (node.left) {
+        if (!parent) {
+          treeRoot = treeRoot.left;
+          return;
+        }
         if (node.left.data > parent.data) {
           parent.right = node.left;
         } else {
@@ -67,6 +75,10 @@ const Tree = (initialArray = []) => {
 
       // Case: node has only right children
       if (node.right.data > parent.data) {
+        if (!parent) {
+          treeRoot = treeRoot.right;
+          return;
+        }
         parent.right = node.right;
       } else {
         parent.left = node.right;
@@ -87,14 +99,15 @@ const Tree = (initialArray = []) => {
     return value < node.data ? find(value, node.left) : find(value, node.right);
   }
 
-  function levelOrderForEach(callback) {
+  function levelOrderForEach(callback, node = null) {
     if (typeof callback !== "function") {
       throw new Error("Callback function is required");
     }
 
-    const queue = [treeRoot];
+    node = node ? node : treeRoot;
+    const queue = [node];
     while (queue.length > 0) {
-      const node = queue.shift();
+      node = queue.shift();
       callback(node);
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
@@ -135,20 +148,10 @@ const Tree = (initialArray = []) => {
   }
 
   function height(value) {
-    let node;
-    if ((node = find(value))) {
-      let counter = 0;
-      while (node.left) {
-        counter++;
-        node = node.left;
-      }
-      while (node.right) {
-        counter++;
-        node = node.right;
-      }
-      return counter;
-    }
-    return null;
+    const node = find(value);
+    if (!node) return null;
+
+    return getHeight(node);
   }
 
   function depth(value, node = treeRoot, counter = 0) {
@@ -158,6 +161,26 @@ const Tree = (initialArray = []) => {
     return value < node.data
       ? depth(value, node.left, counter)
       : depth(value, node.right, counter);
+  }
+
+  function isBalanced(node = treeRoot) {
+    if (!node) return true;
+
+    if (Math.abs(getHeight(node.left) - getHeight(node.right)) > 1)
+      return false;
+
+    return isBalanced(node.left) && isBalanced(node.right);
+  }
+
+  function rebalance() {
+    const arr = [];
+    inOrderForEach((node) => arr.push(node.data));
+    treeRoot = buildTree(arr);
+  }
+
+  function getHeight(n) {
+    if (!n) return -1;
+    return 1 + Math.max(getHeight(n.left), getHeight(n.right));
   }
 
   function prepare(arr) {
@@ -195,6 +218,8 @@ const Tree = (initialArray = []) => {
     preOrderForEach,
     height,
     depth,
+    isBalanced,
+    rebalance,
     prettyPrint,
   };
 };
