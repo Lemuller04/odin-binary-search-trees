@@ -21,10 +21,9 @@ const run = async () => {
   tree.insert(9997);
   tree.insert(9990);
   tree.insert(9991);
-  tree.prettyPrint(tree.treeRoot);
-  tree.deleteItem(6345);
-  tree.deleteItem(67);
-  tree.prettyPrint(tree.treeRoot);
+  tree.prettyPrint();
+  tree.deleteItem(23);
+  tree.prettyPrint();
 };
 
 run();

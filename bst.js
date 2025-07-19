@@ -30,21 +30,24 @@ const Tree = (initialArray = []) => {
       }
       insert(value, node.right);
     }
+    if (!isBalanced()) rebalance();
   }
 
   function deleteItem(value, node = treeRoot, parent = null) {
+    if (!node) return;
+
     if (node.data === value) {
-      // Case: node is a leaf
+      // Case: node has no children
       if (!node.left && !node.right) {
         if (!parent) {
           treeRoot = null;
           return;
         }
-        node.data > parent.data ? (parent.right = null) : (parent.left = null);
+        parent.left === node ? (parent.left = null) : (parent.right = null);
         return;
       }
 
-      // Case: node has both children
+      // Case: node has both child
       if (node.left && node.right) {
         let nextNode = node.right;
         let nextNodeParent = node;
@@ -53,44 +56,38 @@ const Tree = (initialArray = []) => {
           nextNode = nextNode.left;
         }
         node.data = nextNode.data;
-        nextNode.right
-          ? (nextNodeParent.left = nextNode.right)
-          : (nextNodeParent.left = null);
+
+        deleteItem(nextNode.data, node.right, node);
         return;
       }
 
-      // Case: node has only left children
+      // Cases: node has only one child
       if (node.left) {
         if (!parent) {
-          treeRoot = treeRoot.left;
+          treeRoot = node.left;
           return;
         }
-        if (node.left.data > parent.data) {
-          parent.right = node.left;
-        } else {
-          parent.left = node.left;
-        }
+        parent.left === node
+          ? (parent.left = node.left)
+          : (parent.right = node.left);
         return;
       }
 
-      // Case: node has only right children
-      if (node.right.data > parent.data) {
-        if (!parent) {
-          treeRoot = treeRoot.right;
-          return;
-        }
-        parent.right = node.right;
-      } else {
-        parent.left = node.right;
+      if (!parent) {
+        treeRoot = node.right;
+        return;
       }
+      parent.left === node
+        ? (parent.left = node.right)
+        : (parent.right = node.right);
       return;
     }
-    if (value < node.data) {
-      deleteItem(value, node.left, node);
-    }
-    if (value > node.data) {
-      deleteItem(value, node.right, node);
-    }
+
+    value < node.data
+      ? deleteItem(value, node.left, node)
+      : deleteItem(value, node.right, node);
+
+    if (parent === null && !isBalanced()) rebalance();
   }
 
   function find(value, node = treeRoot) {
