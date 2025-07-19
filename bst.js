@@ -181,13 +181,7 @@ const Tree = (initialArray = []) => {
   }
 
   function prepare(arr) {
-    let newArr = [];
-
-    for (let item of arr) {
-      if (!newArr.includes(item)) newArr.push(item);
-    }
-
-    newArr = newArr.sort((a, b) => a - b);
+    let newArr = [...new Set(arr)].sort((a, b) => a - b);
 
     return newArr;
   }
