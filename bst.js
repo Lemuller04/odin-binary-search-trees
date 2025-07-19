@@ -7,7 +7,7 @@ const Tree = (initialArray = []) => {
   function buildTree(arr, start = 0, end = arr.length) {
     if (start > end - 1) return null;
 
-    const mid = Math.floor(end / 2);
+    const mid = Math.floor((start + end) / 2);
     const root = Node(arr[mid]);
     root.left = buildTree(arr.slice(0, mid));
     root.right = buildTree(arr.slice(mid + 1, end));
@@ -82,20 +82,78 @@ const Tree = (initialArray = []) => {
   }
 
   function find(value, node = treeRoot) {
-    try {
-      if (value === node.data) return node;
-    } catch {
-      return null;
-    }
+    if (!node) return null;
+    if (value === node.data) return node;
     return value < node.data ? find(value, node.left) : find(value, node.right);
   }
 
-  function depth(value, node = treeRoot, counter = 0) {
-    try {
-      if (node.data === value) return counter;
-    } catch {
-      return null;
+  function levelOrderForEach(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required");
     }
+
+    const queue = [treeRoot];
+    while (queue.length > 0) {
+      const node = queue.shift();
+      callback(node);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+  }
+
+  function inOrderForEach(callback, node = treeRoot) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback is required");
+    }
+
+    if (!node) return;
+    inOrderForEach(callback, node.left);
+    callback(node);
+    inOrderForEach(callback, node.right);
+  }
+
+  function postOrderForEach(callback, node = treeRoot) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback is required");
+    }
+
+    if (!node) return;
+    postOrderForEach(callback, node.left);
+    postOrderForEach(callback, node.right);
+    callback(node);
+  }
+
+  function preOrderForEach(callback, node = treeRoot) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback is required");
+    }
+
+    if (!node) return;
+    callback(node);
+    preOrderForEach(callback, node.left);
+    preOrderForEach(callback, node.right);
+  }
+
+  function height(value) {
+    let node;
+    if ((node = find(value))) {
+      let counter = 0;
+      while (node.left) {
+        counter++;
+        node = node.left;
+      }
+      while (node.right) {
+        counter++;
+        node = node.right;
+      }
+      return counter;
+    }
+    return null;
+  }
+
+  function depth(value, node = treeRoot, counter = 0) {
+    if (!node) return null;
+    if (node.data === value) return counter;
     counter++;
     return value < node.data
       ? depth(value, node.left, counter)
@@ -131,6 +189,11 @@ const Tree = (initialArray = []) => {
     insert,
     deleteItem,
     find,
+    levelOrderForEach,
+    inOrderForEach,
+    postOrderForEach,
+    preOrderForEach,
+    height,
     depth,
     prettyPrint,
   };
