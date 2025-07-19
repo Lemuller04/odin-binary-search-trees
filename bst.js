@@ -4,13 +4,13 @@ const Tree = (initialArray = []) => {
   let finalArray = prepare(initialArray);
   let treeRoot = buildTree(finalArray);
 
-  function buildTree(arr, start = 0, end = arr.length) {
-    if (start > end - 1) return null;
+  function buildTree(arr, start = 0, end = arr.length - 1) {
+    if (start > end) return null;
 
     const mid = Math.floor((start + end) / 2);
     const root = Node(arr[mid]);
-    root.left = buildTree(arr.slice(0, mid));
-    root.right = buildTree(arr.slice(mid + 1, end));
+    root.left = buildTree(arr, start, mid - 1);
+    root.right = buildTree(arr, mid + 1, end);
 
     return root;
   }
