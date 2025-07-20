@@ -1,21 +1,24 @@
 {
-  "name": "odin-binary-search-trees",
+  "name": "odin-balanced-bst",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A simple balanced binary search tree implementation for The Odin Project",
+  "main": "src/Tree.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/tests.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lemuller04/odin-binary-search-trees.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["bst", "tree", "balanced", "data-structures", "javascript"],
+  "author": "leonardomullerdelima@pm.me",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Lemuller04/odin-binary-search-trees/issues"
   },
   "homepage": "https://github.com/Lemuller04/odin-binary-search-trees#readme",
-  "type": "module"
+  "type": "module",
+  "directories": {
+    "test": "test"
+  }
 }
