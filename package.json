@@ -1,5 +1,5 @@
 {
-  "name": "odin-balanced-bst",
+  "name": "odin-binary-search-trees",
   "version": "1.0.0",
   "description": "A simple balanced binary search tree implementation for The Odin Project",
   "main": "src/Tree.js",
