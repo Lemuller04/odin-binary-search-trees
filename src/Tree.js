@@ -1,6 +1,8 @@
 const Node = (data = null) => ({ data, left: null, right: null });
 
-const Tree = (initialArray = []) => {
+const Tree = (initialArray = [], comparator) => {
+  if (!comparator) comparator = (a, b) => a - b;
+
   let finalArray = prepare(initialArray);
   let treeRoot = buildTree(finalArray);
 
@@ -16,8 +18,12 @@ const Tree = (initialArray = []) => {
   }
 
   function insert(value, node = treeRoot) {
-    if (value === node.data) return;
-    if (value < node.data) {
+    if (!treeRoot) {
+      treeRoot = Node(value);
+      return;
+    }
+    if (comparator(value, node.data) === 0) return;
+    if (comparator(value, node.data) < 0) {
       if (!node.left) {
         node.left = Node(value);
         return;
@@ -36,7 +42,7 @@ const Tree = (initialArray = []) => {
   function deleteItem(value, node = treeRoot, parent = null) {
     if (!node) return;
 
-    if (node.data === value) {
+    if (comparator(value, node.data) === 0) {
       // Case: node has no children
       if (!node.left && !node.right) {
         if (!parent) {
@@ -83,7 +89,7 @@ const Tree = (initialArray = []) => {
       return;
     }
 
-    value < node.data
+    comparator(value, node.data) < 0
       ? deleteItem(value, node.left, node)
       : deleteItem(value, node.right, node);
 
@@ -92,8 +98,10 @@ const Tree = (initialArray = []) => {
 
   function find(value, node = treeRoot) {
     if (!node) return null;
-    if (value === node.data) return node;
-    return value < node.data ? find(value, node.left) : find(value, node.right);
+    if (comparator(value, node.data) === 0) return node;
+    return comparator(value, node.data) < 0
+      ? find(value, node.left)
+      : find(value, node.right);
   }
 
   function levelOrderForEach(callback, node = null) {
@@ -155,7 +163,7 @@ const Tree = (initialArray = []) => {
     if (!node) return null;
     if (node.data === value) return counter;
     counter++;
-    return value < node.data
+    return comparator(value, node.data) < 0
       ? depth(value, node.left, counter)
       : depth(value, node.right, counter);
   }
@@ -181,9 +189,10 @@ const Tree = (initialArray = []) => {
   }
 
   function prepare(arr) {
-    let newArr = [...new Set(arr)].sort((a, b) => a - b);
-
-    return newArr;
+    let newArr = [...new Set(arr.map((v) => JSON.stringify(v)))].map(
+      JSON.parse,
+    );
+    return newArr.sort(comparator);
   }
 
   const prettyPrint = (node = treeRoot, prefix = "", isLeft = true) => {
@@ -193,7 +202,9 @@ const Tree = (initialArray = []) => {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
     }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    console.log(
+      `${prefix}${isLeft ? "└── " : "┌── "}${JSON.stringify(node.data)}`,
+    );
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
