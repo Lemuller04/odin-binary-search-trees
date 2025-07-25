@@ -1,4 +1,4 @@
-# Balanced Binary Search Tree (BST)
+# Balanced Binary Search Tree (BST) in JavaScript
 
 ## Overview
 
@@ -6,27 +6,41 @@ This project is a Balanced Binary Search Tree implementation in JavaScript, crea
 
 It includes:
 
-- Building a balanced BST from an array (removing duplicates).
-- Efficient insert, delete, find operations.
+- Recursive tree construction;
 - Traversals: level-order, pre-order, in-order, post-order.
-- Height and depth calculations for nodes.
+- Depth and height calculations;
+- Efficient insert, delete, find operations.
 - Balance checks and tree rebalancing.
-- A prettyPrint utility for visualizing tree structure in the console.
 
-The implementation is designed for learning:
-
-- Practicing recursion clearly.
-- Understanding tree balancing concepts.
-- Reinforcing O(log n) operations and why they matter for performance.
-
-## Running
-To run the tests:
+## Project Structure
 
 ```bash
-node tests.js
+odin-binary-search-trees/
+├─ package.json          # Metadata & test script
+├─ README.md             # This document
+├─ src/
+│  └─ Tree.js # Core BST implementation
+└─ test/
+   └─ tests.js           # Basic test suite
 ```
 
+## Running
+
+Ensure you have **Node.js** installed.
+
+```bash
+git clone https://github.com/Lemuller04/odin-binary-search-trees.git
+cd odin-binary-search-trees
+```
+
+```bash
+node test/tests.js
+```
+
+This script executes all tree operations and prints traversal orders, structure, and balance state to the console.
+
 ## Key Features
+
 ✅ Balanced Tree Building
 Uses a recursive buildTree with a sorted, duplicate-free array, ensuring a balanced tree on creation.
 
@@ -58,3 +72,20 @@ Inserts place values correctly in the tree structure while avoiding duplicates. 
 ✅ Visualization with prettyPrint
 
 - Neatly displays the tree sideways in the console for debugging and understanding structure.
+
+## Implementation Highlights
+
+- Built with factory functions (Tree and Node) instead of classes for simplicity;
+- Generic comparator support enables sorting of complex data types (e.g., ```[x, y]``` coordinates);
+- Traversal methods accept callbacks for functional data processing;
+- No reliance on third-party libraries - fully build using native JavaScript features.
+
+## Learning Goals Achieved
+
+This project helped practice:
+
+- Recursion and tree traversal logic;
+- Data structure visualization;
+- Functional programming patterns with closures;
+- Edge case handling;
+- Writing flexible and reusable code components.
