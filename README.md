@@ -7,21 +7,21 @@ This project is a Balanced Binary Search Tree implementation in JavaScript, crea
 It includes:
 
 - Recursive tree construction;
-- Traversals: level-order, pre-order, in-order, post-order.
+- Traversals: level-order, pre-order, in-order, post-order;
 - Depth and height calculations;
-- Efficient insert, delete, find operations.
+- Efficient insert, delete, find operations;
 - Balance checks and tree rebalancing.
 
 ## Project Structure
 
 ```bash
 odin-binary-search-trees/
-├─ package.json          # Metadata & test script
-├─ README.md             # This document
+├─ package.json # Metadata & test script
+├─ README.md    # This document
 ├─ src/
-│  └─ Tree.js # Core BST implementation
+│  └─ Tree.js   # Core BST implementation
 └─ test/
-   └─ tests.js           # Basic test suite
+   └─ tests.js  # Basic test suite
 ```
 
 ## Running
@@ -45,7 +45,7 @@ This script executes all tree operations and prints traversal orders, structure,
 Uses a recursive buildTree with a sorted, duplicate-free array, ensuring a balanced tree on creation.
 
 ✅ Efficient Insert and Delete
-Inserts place values correctly in the tree structure while avoiding duplicates. Deletion handles:
+Inserts values correctly into the tree structure while avoiding duplicates. Deletion handles:
 
 - Nodes with no children
 - Nodes with one child
@@ -78,7 +78,7 @@ Inserts place values correctly in the tree structure while avoiding duplicates. 
 - Built with factory functions (Tree and Node) instead of classes for simplicity;
 - Generic comparator support enables sorting of complex data types (e.g., ```[x, y]``` coordinates);
 - Traversal methods accept callbacks for functional data processing;
-- No reliance on third-party libraries - fully build using native JavaScript features.
+- No reliance on third-party libraries - fully built using native JavaScript features.
 
 ## Learning Goals Achieved
 
@@ -89,3 +89,7 @@ This project helped practice:
 - Functional programming patterns with closures;
 - Edge case handling;
 - Writing flexible and reusable code components.
+
+## License
+
+This project is lincensed under the MIT License.
